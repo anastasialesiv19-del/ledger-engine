@@ -14,6 +14,12 @@ class Withdrawn:
     account_id: str
     amount: int
 
+@dataclass(frozen=True)
+class Transferred:
+    from_account_id: str
+    to_account_id: str
+    amount: int
+
 
 
 
