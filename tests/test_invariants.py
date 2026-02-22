@@ -3,7 +3,7 @@
 from ledger_domain.engine import replay, balances
 from ledger_domain.errors import InsufficientFunds, AccountNotFound, InvalidAmount
 from ledger_domain.events import AccountOpened, Withdrawn, Deposited
-from helpers import eid
+from ledger_domain.utils import eid
 
 
 def test_withdraw_more_balance():

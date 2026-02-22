@@ -3,7 +3,7 @@
 from ledger_domain.engine import replay, balances
 from ledger_domain.errors import InsufficientFunds
 from ledger_domain.events import AccountOpened, Deposited, Withdrawn, Transferred
-from helpers import eid
+from ledger_domain.utils import eid
 
 matrix = [
     ("open+deposit+withdraw",

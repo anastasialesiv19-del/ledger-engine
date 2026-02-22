@@ -1,7 +1,7 @@
 ﻿from ledger_domain.engine import replay, balances
 from ledger_domain.errors import InsufficientFunds, InvalidAmount
 from ledger_domain.events import AccountOpened, Deposited, Transferred
-from tests.helpers import eid
+from ledger_domain.utils import eid
 
 
 def main():
