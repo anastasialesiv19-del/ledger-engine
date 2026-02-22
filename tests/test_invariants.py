@@ -35,7 +35,7 @@ def test_deposit_zero_or_negative():
         replay(events)
 
 
-def test_event_for_non_existent_account():
+def test_event_for_nonexistent_account():
     events = [Deposited(eid("deposit_B"),"B", amount=100)]
 
     with pytest.raises(AccountNotFound):

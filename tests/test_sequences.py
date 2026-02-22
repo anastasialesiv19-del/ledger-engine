@@ -22,7 +22,7 @@ matrix = [
 @pytest.mark.parametrize("case_name, events, expected_balances, expected_exc",
                          matrix,
                          ids=[row[0] for row in matrix])
-def test_event_sequences_martix(case_name, events, expected_balances, expected_exc):
+def test_event_sequences_matrix(case_name, events, expected_balances, expected_exc):
     if expected_exc is not None:
         with pytest.raises(expected_exc):
             replay(events)

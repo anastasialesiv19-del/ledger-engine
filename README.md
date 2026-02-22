@@ -1,6 +1,6 @@
 ﻿# Ledger Engine
 
-A small event-sourced ledger engine. Focus: deterministic replay, domain invariants, atomic transfers, and idempotent event processing (TDD + pytest).
+Ledger engine with event replay, invariants, idempotency, and tests (TDD).
 
 ## Purpose
 Built as a portfolio project to demonstrate idempotent event processing, domain invariants, and test-driven development.
@@ -74,7 +74,7 @@ Tests cover invariants, transfer atomicity, idempotency, and scenario-based sequ
 
 Aspects covered:
 - Atomicity of event processing (events are not partially executed in case of exceptions)
-- Idempotence (duplication of events does not change the balance)
+- Idempotency (duplication of events does not change the balance)
 - Failure scenarios and exception handling
 
 Tests are implemented using pytest.
