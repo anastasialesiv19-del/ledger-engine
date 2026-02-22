@@ -1,19 +1,19 @@
-﻿from ledger_domain.engine import replay
+﻿from ledger_domain.engine import replay, balances
 from ledger_domain.events import AccountOpened, Deposited, Withdrawn
-from ledger_domain.models import AccountState
+from helpers import eid
 
 
 def test_correct_open_new_account():
-    events = [AccountOpened("A")]
+    events = [AccountOpened(eid("open_A"), "A")]
     state = replay(events)
-    assert state.accounts["A"].balance == 0
+    assert balances(state)["A"] == 0
 
 def test_correct_add_deposit_to_account():
-    events = [AccountOpened("A"), Deposited("A", amount=100)]
+    events = [AccountOpened(eid("open_A"), "A"), Deposited(eid("deposit_A"), "A", amount=100)]
     state = replay(events)
-    assert state.accounts["A"].balance == 100
+    assert balances(state)["A"] == 100
 
 def test_correct_withdraw_from_account():
-    events = [AccountOpened("A"), Deposited("A", amount=100), Withdrawn("A", amount=30)]
+    events = [AccountOpened(eid("open_A"), "A"), Deposited(eid("deposit_A"), "A", amount=100), Withdrawn(eid("withdraw_A"), "A", amount=30)]
     state = replay(events)
-    assert state.accounts["A"].balance == 70
+    assert balances(state)["A"] == 70
