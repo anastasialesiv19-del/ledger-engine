@@ -4,17 +4,21 @@ from ledger_domain.models import LedgerState, AccountState
 
 
 def replay(events) -> LedgerState:
-    state = LedgerState(accounts={})
+    state = LedgerState(seen_event_ids=set(), accounts={})
     for event in events:
         state = apply_event(state, event)
 
     return state
 
 def apply_event(state, event) -> LedgerState:
+    if event.event_id in state.seen_event_ids:
+        return state
+
     match event:
         case AccountOpened():
             if event.account_id not in state.accounts:
                 state.accounts[event.account_id] = AccountState(event.account_id)
+            state.seen_event_ids.add(event.event_id)
             return state
 
         case Deposited():
@@ -23,6 +27,7 @@ def apply_event(state, event) -> LedgerState:
             if event.amount <= 0:
                 raise InvalidAmount()
             state.accounts[event.account_id].balance += event.amount
+            state.seen_event_ids.add(event.event_id)
             return state
 
         case Withdrawn():
@@ -33,6 +38,7 @@ def apply_event(state, event) -> LedgerState:
             if state.accounts[event.account_id].balance - event.amount < 0:
                 raise InsufficientFunds()
             state.accounts[event.account_id].balance -= event.amount
+            state.seen_event_ids.add(event.event_id)
             return state
 
         case Transferred():
@@ -45,11 +51,11 @@ def apply_event(state, event) -> LedgerState:
                 raise InsufficientFunds()
             state.accounts[event.from_account_id].balance -= event.amount
             state.accounts[event.to_account_id].balance += event.amount
+            state.seen_event_ids.add(event.event_id)
             return state
 
         case _:
             raise ValueError("Unknown event")
-
 
 def balances(state: LedgerState) -> dict[str, int]:
     balance = {}

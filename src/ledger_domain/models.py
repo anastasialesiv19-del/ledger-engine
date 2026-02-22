@@ -8,4 +8,5 @@ class AccountState:
 
 @dataclass()
 class LedgerState:
+    seen_event_ids: set[str]
     accounts: dict[str, AccountState]
